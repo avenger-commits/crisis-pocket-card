@@ -76,12 +76,22 @@ li { margin-bottom: 6px; }
 .btn.ghost { background: var(--paper); color: var(--ink); }
 .quote { text-align: center; font-weight: 800; font-size: 18px; padding: 18px 10px; }
 footer { padding: 20px 18px 36px; font-size: 13px; color: var(--muted); text-align: center; line-height: 1.7; }
+/* 기관용 내려받기 — 각 기관이 받아서 이름·연락처를 고쳐 쓰라고 */
+header .dl-link { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 700; color: var(--teal); text-decoration: none; }
+.dl { max-width: 640px; margin: 0 auto; padding: 4px 16px 8px; }
+.dl .box { background: var(--teal-soft); border-radius: 16px; padding: 16px 16px 12px; }
+.dl h2 { font-size: 18px; margin: 0 0 4px; }
+.dl a.file { display: grid; grid-template-columns: 52px 1fr; gap: 2px 12px; align-items: center; text-decoration: none; background: var(--bg); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+.dl a.file b { grid-row: span 2; font-size: 13px; font-weight: 900; color: var(--bg); background: var(--teal); border-radius: 8px; text-align: center; padding: 8px 0; }
+.dl a.file span { font-weight: 800; }
+.dl a.file small { font-size: 13px; color: var(--muted); }
 </style>
 </head>
 <body>
 <header>
   <p class="k">찾아가는 위기대응교육 · 사회복지종사자용</p>
   <h1>위기대응 포켓 카드</h1>
+  <a class="dl-link" href="#download">기관용 파일 내려받기 ↓</a>
 </header>
 <nav role="tablist">
   <button role="tab" data-t="now">위기 순간</button>
@@ -256,6 +266,15 @@ footer { padding: 20px 18px 36px; font-size: 13px; color: var(--muted); text-ali
 </section>
 
 </main>
+<section class="dl" id="download">
+  <div class="box">
+    <h2>기관용 파일 내려받기</h2>
+    <p class="note">우리 기관 이름·연락처·절차에 맞게 고쳐 쓰세요.</p>
+    <a class="file" href="pocket-card.pptx" download="위기대응_포켓카드.pptx"><b>PPT</b><span>고쳐 쓰는 파일</span><small>PowerPoint 로 열어 글자를 바로 고칩니다</small></a>
+    <a class="file" href="pocket-card.pdf" download="위기대응_포켓카드.pdf"><b>PDF</b><span>인쇄용</span><small>그대로 출력해 나눠 줍니다</small></a>
+    <a class="file" href="pocket-card.html" download="위기대응_포켓카드.html"><b>WEB</b><span>이 페이지 파일</span><small>기관 누리집이나 단체방에 그대로 올려 씁니다</small></a>
+  </div>
+</section>
 <footer>
   대구광역시사회복지사협회 위기대응역량강화사업<br>
   찾아가는 위기대응교육 · 강사 임현진(정신건강사회복지사)<br>
@@ -266,6 +285,12 @@ footer { padding: 20px 18px 36px; font-size: 13px; color: var(--muted); text-ali
   // 탭 — 주소 끝 #now · #after · #care · #visit · #help 로 바로 열 수 있다
   const tabs = [...document.querySelectorAll('nav button')];
   const show = t => {
+    // #download 는 탭이 아니라 아래쪽 내려받기 칸이다 — 탭은 그대로 두고 그리로 내려간다
+    if (t === 'download') {
+      if (!tabs.some(b => b.getAttribute('aria-selected') === 'true')) show('now');
+      document.getElementById('download').scrollIntoView();
+      return;
+    }
     // 섹션 id 에 p- 를 붙여 둔다 — #now 와 id 가 같으면 브라우저가 그 자리로 스크롤해 머리말이 가려진다
     if (!document.getElementById('p-' + t)) t = 'now';
     tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.t === t));
